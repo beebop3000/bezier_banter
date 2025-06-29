@@ -1,61 +1,53 @@
 
+// Set Up Window
 myCanvas.width = window.innerWidth;
 myCanvas.height = window.innerHeight;
 
-const A={x:100, y:450};
-const B={x:250, y:100};
-const C={x:450, y:600};
+const ctx = myCanvas.getContext("2d")
 
-moveAblePoints = [A,B,C];
+// Declaring points
+const P0={x:800, y:650};
+const P1={x:250, y:100};
+const P2={x:450, y:600};
+const P3={x:600, y:750};
 
 
+let BC_Trail = []
+
+moveAblePoints = [P0, P1, P2, P3];
+
+// for the click and drop
 let SELECTED_POINT = null;
 
-let t = 0.2;
-
+// Start at thr mid point
+let t = 0.5;
 let incraseing = true;
-let incraseing2 = true;
-
 
 function lerp(A,B,t){
     return A+(B-A)*t;
 }
 
 
-const ctx = myCanvas.getContext("2d")
 
 
 
+// DRAG DROP FUNCTIONS
 function mouseDown(e){
-    SELECTED_POINT = getSelectedPoint(e)
+    SELECTED_POINT = getSelectedPoint(e);
 }
-
-function getSelectedPoint(e){
-    x = e.clientX;
-    y = e.clientY;
-
-    for(let i = 0; i < allPoints.length; i++){
-        if( Math.abs(x-allPoints[i].x) < 10 && Math.abs(y-allPoints[i].y) < 10){
-            
-            console.log('hit', allPoints[i])
-            return allPoints[i]
-            
-        }
-    }
-}
-
 
 function mouseMove(e){
 
     if(SELECTED_POINT != null){
-        console.log('were in')
-        SELECTED_POINT.x = e.x - SELECTED_POINT.x;
-        SELECTED_POINT.y = e.y - SELECTED_POINT.y;
+        SELECTED_POINT.x = e.x;
+        SELECTED_POINT.y = e.y;
     }
 }
 
 function mouseUp(e){
-    document.removeEventListener('mousemove', mouseMove)
+    document.removeEventListener('mousemove', mouseMove);
+    SELECTED_POINT = null;
+    BC_Trail = []
 }
 
 myCanvas.addEventListener('mousedown',mouseDown)
@@ -65,55 +57,78 @@ myCanvas.addEventListener('mouseup',mouseUp)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// main animation function
 function animate(){
 
+    // Clear Canvas and Draw Points
     ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
+    
+    drawLine(P0,P1);
+    drawLine(P1,P2);
+    drawLine(P2,P3);
+    
+    drawDot(P0, "P0")
+    drawDot(P1, "P1")
+    drawDot(P2, "P2")
+    drawDot(P3, "P3")
+    
 
-    
-    
-    drawLine(A,B);
-    drawLine(B,C);
-    
-    drawDot(A, "A")
-    drawDot(B, "B")
-    drawDot(C, "C")
-    
-    const M = {
-        x:lerp(A.x, B.x, t),
-        y:lerp(A.y, B.y, t)
+    // Draw line connections and plot X
+    const L1 = {
+        x:lerp(P0.x, P1.x, t),
+        y:lerp(P0.y, P1.y, t)
+    }
+
+    const L2 = {
+        x:lerp(P1.x, P2.x, t),
+        y:lerp(P1.y, P2.y, t)
+    }
+
+    const L3 = {
+        x:lerp(P2.x, P3.x, t),
+        y:lerp(P2.y, P3.y, t)
     }
 
 
-    const M2 = {
-        x:lerp(B.x, C.x, t),
-        y:lerp(B.y, C.y, t)
+
+    const B1 = {
+        x:lerp(L1.x, L2.x, t),
+        y:lerp(L1.y, L2.y, t)
     }
 
-    const BC = {
-        x:lerp(M.x, M2.x, t),
-        y:lerp(M.y, M2.y, t)
+    const B2 = {
+        x:lerp(L2.x, L3.x, t),
+        y:lerp(L2.y, L3.y, t)
     }
 
-    drawLine(M,M2);
-    drawDot(BC, 'BC')
+
+    const X = {
+        x:lerp(B1.x, B2.x, t),
+        y:lerp(B1.y, B2.y, t)
+    }
+
+    drawLine(L1,L2);
+    drawLine(L2,L3);
+
+    drawLine(B1,B2);
 
 
-    allPoints = [A,B,C];
+
+
+
+
+    // leave trail behind
+
+    BC_Trail.push(X)
+
+    BC_Trail = BC_Trail.slice(-5000)
+
+
+
+    drawDot(X, 'X')
+    plotTrail(BC_Trail)
+
+    
 
     if(incraseing){
         t += 0.005
@@ -127,18 +142,29 @@ function animate(){
 
     
     
-    drawDot(M, "M")
-    drawDot(M2, "M1")
+    drawDot(L1, "L1");
+    drawDot(L2, "L2");
+    drawDot(L3, "L3");
 
-    requestAnimationFrame(animate)
+    
+    drawDot(B1, "B1");
+    drawDot(B2, "B2");
 
+
+
+    requestAnimationFrame(animate);
 }
 
 
-animate()
+
+animate();
 
 
+function plotTrail(arr){
+
+    for(let i=0; i < arr.length; i++){
+        leaveMark(arr[i])
+    }
 
 
-
-
+}
