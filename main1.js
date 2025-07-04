@@ -1,3 +1,7 @@
+// To Add and this in correctly I'll need to move and rescale the canvas
+// and I'll also need to have a way to interact with the pints after the shift
+
+
 // Set Up Window
 myCanvas.width = window.innerWidth;
 myCanvas.height = window.innerHeight;
@@ -13,8 +17,8 @@ let SELECTED_POINT = null;
 let BC_Trail = []
 
 // Declaring points
-// Could build a function that auto matically builds all the classes 
-// That way we can add and delete with a single button 
+// 
+
 
 const P0={x:800, y:650};
 const P1={x:250, y:100};

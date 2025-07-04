@@ -63,7 +63,7 @@ function getSelectedPoint(e){
 
 // DRAG DROP FUNCTIONS
 function mouseDown(e){
-    SELECTED_POINT = getSelectedPoint(e);
+        SELECTED_POINT = getSelectedPoint(e);
     BC_Trail = []
 }
 
