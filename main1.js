@@ -3,10 +3,18 @@
 
 
 // Set Up Window
-myCanvas.width = window.innerWidth;
-myCanvas.height = window.innerHeight;
+myCanvas.width = 1600 //window.innerWidth;
+myCanvas.height = 800 // window.innerHeight;
 
 const ctx = myCanvas.getContext("2d")
+
+
+var myCanvasPosition = myCanvas.getBoundingClientRect();
+var xShift =  myCanvasPosition.left;
+var yShift =  myCanvasPosition.top;
+
+console.log(xShift, yShift);
+
 
 // Start at thr mid point
 let t = 0.5;
@@ -20,13 +28,14 @@ let BC_Trail = []
 // 
 
 
-const P0={x:800, y:650};
-const P1={x:250, y:100};
-const P2={x:450, y:600};
-const P3={x:600, y:750};
-const P4={x:100, y:150};
-const P5={x:88, y:750};
+const P0={x:800+myCanvasPosition.left, y:550+myCanvasPosition.top};
+const P1={x:250+myCanvasPosition.left, y:100+myCanvasPosition.top};
+const P2={x:450+myCanvasPosition.left, y:450+myCanvasPosition.top};
+const P3={x:600+myCanvasPosition.left, y:600+myCanvasPosition.top};
+const P4={x:100+myCanvasPosition.left, y:150+myCanvasPosition.top};
+const P5={x:88+myCanvasPosition.left, y:625+myCanvasPosition.top};
 
+console.log(P0)
 
 moveAblePoints = [P0, P1, P2, P3, P4, P5];
 
@@ -82,9 +91,6 @@ for(let i =0; i < level4.length; i++){
 const X = new SupportLine([D0.pos,D1.pos], 'X', ["white","black"]);
 
 
-
-
-
 myCanvas.addEventListener('mousedown',mouseDown)
 myCanvas.addEventListener('mousemove',mouseMove)
 myCanvas.addEventListener('mouseup',mouseUp)
@@ -94,8 +100,6 @@ function animate(){
 
     // Clear Canvas and Draw Points
     ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
-
-
 
     for(let i =0; i < moveAblePoints.length; i++){
         drawDot(moveAblePoints[i], i)
@@ -134,9 +138,6 @@ function animate(){
 
     BC_Trail = BC_Trail.slice(-5000)
     plotTrail(BC_Trail)
-
-
-
 
 
     if(incraseing){

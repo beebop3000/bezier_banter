@@ -45,8 +45,10 @@ function drawLine(A,B, color = 'red', lineWidth = 0.2){
 
 
 function getSelectedPoint(e){
-    x = e.clientX;
-    y = e.clientY;
+    x = e.clientX - xShift;
+    y = e.clientY - yShift;
+
+    console.log(x,y)
 
     for(let i = 0; i < moveAblePoints.length; i++){
         if( Math.abs(x-moveAblePoints[i].x) < 10 && Math.abs(y-moveAblePoints[i].y) < 10){
@@ -63,15 +65,15 @@ function getSelectedPoint(e){
 
 // DRAG DROP FUNCTIONS
 function mouseDown(e){
-        SELECTED_POINT = getSelectedPoint(e);
+    SELECTED_POINT = getSelectedPoint(e);
     BC_Trail = []
 }
 
 function mouseMove(e){
 
     if(SELECTED_POINT != null){
-        SELECTED_POINT.x = e.x;
-        SELECTED_POINT.y = e.y;
+        SELECTED_POINT.x = e.x - xShift;
+        SELECTED_POINT.y = e.y - yShift;
     }
 }
 
