@@ -1,10 +1,17 @@
 
-.main{
-    background-color: aquamarine;
+body{
+    background-color: whitesmoke;
 }
 
+.main{
+    text-align: center;
+}
+
+
+
 #myCanvas {
+    align-items: center;
     border-style: solid;
     border-color: blue;
-    border-width: 2px;
+    border-width: 0.11rem;
 }
