@@ -21,19 +21,34 @@ function drawDot(point, label, color= ['black','white'], size = 7, lineWidth= 0)
 
 }
 
-
-
-function leaveMark(point){
+function drawSupportDot(point, color = 'grey'){
     ctx.beginPath();
-    ctx.arc(point.x, point.y, 2, 0, Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.arc(point.x, point.y, 5, 0, Math.PI*2);
+    ctx.fill();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = color;
     ctx.stroke();
 
 }
 
 
-function drawLine(A,B, color = 'red', lineWidth = 0.2){
+
+
+
+
+
+function leaveMark(point){
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 2, 0, Math.PI*2);
+    ctx.lineWidth = 0.1;
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+
+}
+
+
+function drawLine(A,B, color = 'black', lineWidth = 0.75){
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle  = color
 
@@ -47,8 +62,6 @@ function drawLine(A,B, color = 'red', lineWidth = 0.2){
 function getSelectedPoint(e){
     x = e.clientX - xShift;
     y = e.clientY - yShift;
-
-    console.log(x,y)
 
     for(let i = 0; i < moveAblePoints.length; i++){
         if( Math.abs(x-moveAblePoints[i].x) < 10 && Math.abs(y-moveAblePoints[i].y) < 10){
@@ -64,6 +77,8 @@ function getSelectedPoint(e){
 // MOUSE FUNCTIONS
 
 // DRAG DROP FUNCTIONS
+
+// is there a way to move these into a the Bezier Curve class and I want to clear the train when I click a classes node
 function mouseDown(e){
     SELECTED_POINT = getSelectedPoint(e);
     BC_Trail = []
